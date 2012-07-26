@@ -31,8 +31,8 @@ Calculator::Calculator(QWidget *parent) :
     Button *changeSignButton = createButton("\261", SLOT(changeSignClicked()));
 
     Button *backspaceButton = createButton("Backspace", SLOT(backspaceClicked()));
-    Button *clearButton = createButton("Clear", SLOT(clearClicked()));
-    Button *clearAllButton = createButton("Clear All", SLOT(clearAllClicked()));
+    Button *clearButton = createButton("Clear", SLOT(clear()));
+    Button *clearAllButton = createButton("Clear All", SLOT(clearAll()));
 
     Button *clearMemoryButton = createButton("MC", SLOT(clearMemory()));
     Button *readMemoryButton = createButton("MR", SLOT(readMemory()));
@@ -60,7 +60,7 @@ Calculator::Calculator(QWidget *parent) :
     mainLayout->addWidget(clearMemoryButton,2,0);
     mainLayout->addWidget(readMemoryButton,3,0);
     mainLayout->addWidget(setMemoryButton,4,0);
-    mainLayout->addWidget(addToMemoryButton,4,0);
+    mainLayout->addWidget(addToMemoryButton,5,0);
 
     for(int i = 1; i < NumDigitButtons; ++i)
     {
