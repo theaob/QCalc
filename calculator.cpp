@@ -293,3 +293,17 @@ void Calculator::equalClicked()
     waitingForOperand = true;
 }
 
+void Calculator::pointClicked()
+{
+    if(waitingForOperand)
+    {
+        display->setText("0");
+    }
+    if(!display->text().contains("."))
+    {
+        display->setText(display->text() + ".0");
+    }
+    waitingForOperand = false;
+}
+
+
