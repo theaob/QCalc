@@ -115,6 +115,81 @@ void Calculator::digitClicked()
     }
 
     display->setText(display->text() + QString::number(digitValue));
+}
 
+void Calculator::addToMemory()
+{
+    equalClicked();
+    sumInMemory += display->text().toDouble();
+}
 
+void Calculator::setMemory()
+{
+    equalClicked();
+    sumInMemory = display->text().toDouble();
+}
+
+void Calculator::clearMemory()
+{
+    sumInMemory = 0.0;
+}
+
+void Calculator::readMemory()
+{
+    display->setText(QString::number(sumInMemory));
+    waitingForOperand = true;
+}
+
+void Calculator::clear()
+{
+    if(waitingForOperand)
+    {
+        return;
+    }
+    display->setText("0");
+    waitingForOperand = true;
+}
+
+void Calculator::clearAll()
+{
+    display->setText("0");
+    factorSoFar = 0.0;
+    sumSoFar = 0.0;
+    pendingAdditiveOperator.clear();
+    pendingMultiplicativeOperator.clear();
+    waitingForOperand = true;
+}
+
+void Calculator::unaryOperatorClicked()
+{
+    Button *clickedButton = qobject_cast<Button *>(sender());
+    QString clickedOperator = clickedButton->text();
+
+    double operand = display->text().toDouble();
+    double result = 0.0;
+
+    if(clickedOperator == "sqrt")
+    {
+        if(operand < 0.0)
+        {
+            abortOperation();
+            return;
+        }
+        result = sqrt(operand);
+    }
+    else if(clickedOperator == "x\262")
+    {
+        result = pow(operand, 2);
+    }
+    else if(clickedOperator == "1/x")
+    {
+        if(operand <= 0.0)
+        {
+            abortOperation();
+            return;
+        }
+        result = 1.0 / operand;
+    }
+    display->setText(QString::number(result));
+    waitingForOperand = true;
 }
