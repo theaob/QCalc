@@ -231,3 +231,65 @@ void Calculator::additiveOperatorClicked()
     pendingAdditiveOperator = clickedOperator;
     waitingForOperand = true;
 }
+
+void Calculator::multiplicativeOperatorClicked()
+{
+    Button *clickedButton = qobject_cast<Button *>(sender());
+    QString clickedOperator = clickedButton->text();
+
+    double operand = display->text().toDouble();
+
+    if(!pendingMultiplicativeOperator.isEmpty())
+    {
+        if(!calculate(operand, pendingMultiplicativeOperator))
+        {
+            abortOperation();
+            return;
+        }
+        display->setText(QString::number(factorSoFar));
+    }
+    else
+    {
+        factorSoFar = operand;
+    }
+
+    pendingMultiplicativeOperator = clickedOperator;
+    waitingForOperand = true;
+}
+
+void Calculator::equalClicked()
+{
+    double operand = display->text().toDouble();
+
+    if(!pendingMultiplicativeOperator.isEmpty())
+    {
+        if(!calculate(operand, pendingMultiplicativeOperator))
+        {
+            abortOperation();
+            return;
+        }
+        operand = factorSoFar;
+        factorSoFar = 0.0;
+        pendingMultiplicativeOperator.clear();
+    }
+
+    if(!pendingAdditiveOperator.isEmpty())
+    {
+        if(!calculate(operand, pendingAdditiveOperator))
+        {
+            abortOperation();
+            return;
+        }
+        pendingAdditiveOperator.clear();
+    }
+    else
+    {
+        sumSoFar = operand;
+    }
+
+
+    display->setText(QString::number(sumSoFar));
+    sumSoFar = 0.0;
+    waitingForOperand = true;
+}
+
