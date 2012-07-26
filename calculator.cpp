@@ -306,4 +306,17 @@ void Calculator::pointClicked()
     waitingForOperand = false;
 }
 
-
+void Calculator::changeSignClicked()
+{
+    QString text = display->text();
+    double value = text.toDouble();
+    if(value > 0.0)
+    {
+        text.prepend("-");
+    }
+    else
+    {
+        text.remove(0,1);
+    }
+    display->setText(text);
+}
