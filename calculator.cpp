@@ -320,3 +320,21 @@ void Calculator::changeSignClicked()
     }
     display->setText(text);
 }
+
+void Calculator::backspaceClicked()
+{
+    if(waitingForOperand)
+    {
+        return;
+    }
+
+    QString text = display->text();
+    text.chop(1);
+    if(text.isEmpty())
+    {
+        text = "0";
+        waitingForOperand = true;
+    }
+
+    display->setText(text);
+}
