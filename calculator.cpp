@@ -338,3 +338,34 @@ void Calculator::backspaceClicked()
 
     display->setText(text);
 }
+
+void Calculator::abortOperation()
+{
+    clearAll();
+    display->setText("#####");
+}
+
+bool Calculator::calculate(double rightOperand, const QString &pendingOperator)
+{
+    if(pendingOperator == "+")
+    {
+        sumSoFar += rightOperand;
+    }
+    else if(pendingOperator == "-")
+    {
+        sumSoFar -= rightOperand;
+    }
+    else if(pendingOperator == "\327")
+    {
+        factorSoFar *= rightOperand;
+    }
+    else if(pendingOperator == "\367")
+    {
+        if(rightOperand == 0.0)
+        {
+            return false;
+        }
+        factorSoFar /= rightOperand;
+    }
+    return true;
+}
